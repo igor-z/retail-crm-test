@@ -1,0 +1,35 @@
+<h3>History</h3>
+
+{% macro format_value(value) %}
+    {% if value is null %}
+        <span class="badge badge-danger">none</span>
+    {% else %}
+        <span class="badge badge-secondary">{{ value }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% import _self as history %}
+
+<ul class="list-group">
+    {% for logEntry in logEntries %}
+        <li class="list-group-item">
+            <div>{{ logEntry.createdAt | date('Y-m-d H:i:s') }}</div>
+
+            {% if logEntry.entityClass == 'App\\Entity\\Client' %}
+                {{ logEntry.type|capitalize }}
+            {% elseif logEntry.entityClass == 'App\\Entity\\ClientAddress' %}
+                Address {{ logEntry.type }}
+            {% else %}
+                {{ logEntry.entityClass }} {{ logEntry.type }}
+            {% endif %}
+
+            {% for property, value in logEntry.changes %}
+                {% if logEntry.type == 'deletion' %}
+                    <div><b>{{ property|capitalize }}</b>: {{ history.format_value(value) }}</div>
+                {% else %}
+                    <div><b>{{ property|capitalize }}</b>: {{ history.format_value(value[0]) }} => {{ history.format_value(value[1]) }}</div>
+                {% endif %}
+            {% endfor %}
+        </li>
+    {% endfor %}
+</ul>

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Service\ClientService;
-use Gedmo\Loggable\Entity\LogEntry;
+use App\Service\LogEntryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +19,9 @@ class ClientController extends AbstractController
     /**
      * @param ClientService $service
      * @param Request $request
-     * @Route("/", name="client_index", methods={"GET"})
      * @return Response
+     *
+     * @Route("/", name="client_index", methods={"GET"})
      */
     public function index(ClientService $service, Request $request): Response
     {
@@ -33,8 +34,9 @@ class ClientController extends AbstractController
 
     /**
      * @param Request $request
-     * @Route("/new", name="client_new", methods={"GET","POST"})
      * @return Response
+     *
+     * @Route("/new", name="client_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -65,23 +67,27 @@ class ClientController extends AbstractController
 
     /**
      * @param Client $client
-     * @Route("/{id}", name="client_show", methods={"GET"})
+     * @param LogEntryService $logEntryService
      * @return Response
+     *
+     * @Route("/{id}", name="client_show", methods={"GET"})
      */
-    public function show(Client $client): Response
+    public function show(LogEntryService $logEntryService, Client $client): Response
     {
-        $logEntry = $this->getDoctrine()->getManager()->getRepository('Gedmo\Loggable\Entity\LogEntry');
+        $logEntries = $logEntryService->getEntityEntries($this->getDoctrine()->getManager(), $client);
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
-            'history' => $logEntry->getLogEntries($client),
+            'logEntries' => $logEntries,
         ]);
     }
 
     /**
      * @param Request $request
      * @param Client $client
-     * @Route("/{id}/edit", name="client_edit", methods={"GET","POST"})
      * @return Response
+     *
+     * @Route("/{id}/edit", name="client_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Client $client): Response
     {
@@ -114,8 +120,9 @@ class ClientController extends AbstractController
     /**
      * @param Request $request
      * @param Client $client
-     * @Route("/{id}", name="client_delete", methods={"DELETE"})
      * @return Response
+     *
+     * @Route("/{id}", name="client_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Client $client): Response
     {

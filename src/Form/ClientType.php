@@ -6,6 +6,7 @@ use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +17,7 @@ class ClientType extends AbstractType
         $builder
             ->add('name')
             ->add('last_name')
-            ->add('phone')
+            ->add('phone', TelType::class)
             ->add('email', EmailType::class)
             ->add('addresses', CollectionType::Class, [
                 'entry_type' => ClientAddressType::class,

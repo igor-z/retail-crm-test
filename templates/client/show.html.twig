@@ -39,17 +39,9 @@
     </table>
 
     <div class="form-group">
-        <h3>History</h3>
-        <ul class="list-group">
-            {% for historyItem in history %}
-                <li class="list-group-item">
-                    <div>Changed at: {{ historyItem.loggedAt | date('Y-m-d H:i:s') }}</div>
-                    {% for attributeName, attribute in historyItem.data %}
-                        <div>{{ attributeName }}: {{ attribute }}</div>
-                    {% endfor %}
-                </li>
-            {% endfor %}
-        </ul>
+        {{ include('client/_history.html.twig', {
+            'logEntries': logEntries
+        }) }}
     </div>
 
     <div class="form-group">

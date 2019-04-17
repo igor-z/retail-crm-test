@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use App\Annotation\Log;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientAddressRepository")
- * @Gedmo\Loggable
+ * @Log\Loggable()
  */
 class ClientAddress
 {
@@ -20,19 +20,16 @@ class ClientAddress
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\Versioned
      */
     private $country_name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\Versioned
      */
     private $city_name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\Versioned
      */
     private $address;
 
@@ -44,7 +41,6 @@ class ClientAddress
 
     /**
      * @ORM\Column(type="integer")
-     * @Gedmo\Versioned
      */
     private $client_id;
 

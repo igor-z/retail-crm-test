@@ -6,12 +6,13 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use App\Annotation\Log;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  * @ORM\HasLifecycleCallbacks()
- * @Gedmo\Loggable
+ * @Log\Loggable()
  */
 class Client
 {
@@ -24,35 +25,35 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\Versioned
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\Versioned
      */
     private $last_name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\Versioned
+     * @Assert\Regex("/^\+\d[\d \-]+$/")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\Versioned
+     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Log\Ignored()
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Log\Ignored()
      */
     private $updated_at;
 

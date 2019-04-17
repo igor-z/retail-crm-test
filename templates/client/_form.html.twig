@@ -3,6 +3,7 @@
     {{ form_row(form.last_name) }}
     {{ form_row(form.phone) }}
     {{ form_row(form.email) }}
+    {{ form_row(form._token) }}
 
     <fieldset class="form-group">
         {{ form_label(form.addresses) }}
@@ -14,5 +15,5 @@
     </fieldset>
 
     <button class="btn btn-success">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}
 
